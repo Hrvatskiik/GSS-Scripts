@@ -1,0 +1,54 @@
+-- variables and functions--
+local players = game:GetService("Players")
+local local_player = players.LocalPlayer
+local mouse = local_player:GetMouse()
+
+local keybind = ""
+
+local AutoGetCash = 0
+
+local function GetCash()
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("start_skydive"):InvokeServer(220)
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("validate_skydive"):FireServer(1000000000 * 9.99999999, 3)
+end
+
+
+--skydiving--
+local gui_library = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt"))()
+local window = gui_library:Window("Made by GSS Staff.")
+local SkyDiveOff = window:Server("Skydive Off a Tower", "rbxassetid://10248739816")
+
+local Main = SkyDiveOff:Channel("Main")
+local keybindies = SkyDiveOff:Channel("Keybinds.")
+
+
+Main:Button("Get 10 Billion Cash (Max)", function()
+GetCash()
+end)
+
+ Main:Toggle("Auto Get Cash (each 0.1 sec)", false, function()
+        AutoGetCash += 1
+        while AutoGetCash == 1 do
+        GetCash()
+        wait()
+        if AutoGetCash >= 2 then
+			AutoGetCash = 0
+           break
+        end
+        end
+    end)
+
+
+keybindies:Textbox("Set a keybind to get 10 billion cash. (works mainly for pc)", "Keybinds can be for example: 'r', 't', 'y', etc.", false, function(ActionKeybind)
+	keybind = ActionKeybind
+end)
+
+keybindies:Button("Remove Get Cash Keybind.", function()
+	keybind = nil
+end)
+
+mouse.KeyDown:Connect(function(key)
+if key == keybind then
+GetCash()
+    end
+end)
