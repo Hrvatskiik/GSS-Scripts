@@ -19,7 +19,7 @@ local window = gui_library:Window("Made by GSS Staff.")
 local SkyDiveOff = window:Server("Skydive Off a Tower", "rbxassetid://10248739816")
 
 local Main = SkyDiveOff:Channel("Main")
-local keybindies = SkyDiveOff:Channel("Keybinds.")
+local keybindies = SkyDiveOff:Channel("Keybinds")
 
 
 Main:Button("Get 10 Billion Cash (Max)", function()
