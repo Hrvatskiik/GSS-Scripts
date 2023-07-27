@@ -1,49 +1,58 @@
--- variables and functions--
 local players = game:GetService("Players")
 local local_player = players.LocalPlayer
 local mouse = local_player:GetMouse()
+local coin_gui = local_player.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("MainFrame"):WaitForChild("Frame"):WaitForChild("FrameCash")
 
 local keybind = ""
 
-local AutoGetCash = 0
+local auto_get_cash = 0
 
 local function GetCash()
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("start_skydive"):InvokeServer(220)
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("validate_skydive"):FireServer(1000000000 * 9.99999999, 3)
 end
 
-
---skydiving--
 local gui_library = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt"))()
 local window = gui_library:Window("Made by GSS Staff.")
-local SkyDiveOff = window:Server("Skydive Off a Tower", "rbxassetid://10248739816")
+local skydive = window:Server("Skydive Off a Tower", "rbxassetid://10248739816")
 
-local Main = SkyDiveOff:Channel("Main")
-local keybindies = SkyDiveOff:Channel("Keybinds")
+local main = skydive:Channel("Main")
+local gui = skydive:Channel("Gui")
+local keybindies = skydive:Channel("Keybinds")
 
 
-Main:Button("Get 10 Billion Cash (Max)", function()
+main:Button("Get cash", function()
 GetCash()
 end)
 
- Main:Toggle("Auto Get Cash (each 0.1 sec)", false, function()
-        AutoGetCash += 1
-        while AutoGetCash == 1 do
+main:Toggle("Auto get cash", false, function()
+        auto_get_cash += 1
+        while auto_get_cash == 1 do
         GetCash()
         wait()
-        if AutoGetCash >= 2 then
-			AutoGetCash = 0
+        if auto_get_cash >= 2 then
+			auto_get_cash = 0
            break
         end
         end
     end)
+    
+    
+gui:Label("Channel made to not have problems when getting cash")
 
+gui:Button("Restore coin gui size", function()
+coin_gui.Size = UDim2.new(4.69999981, 0, 0.800000012, 0)
+end)
+
+gui:Toggle("Coin gui disabled", false, function()
+  coin_gui.Visible = not coin_gui.Visible
+end)
 
 keybindies:Textbox("Set a keybind to get 10 billion cash. (works mainly for pc)", "Keybinds can be for example: 'r', 't', 'y', etc.", false, function(ActionKeybind)
 	keybind = ActionKeybind
 end)
 
-keybindies:Button("Remove Get Cash Keybind.", function()
+keybindies:Button("Remove get cash keybind", function()
 	keybind = nil
 end)
 
@@ -52,5 +61,3 @@ if key == keybind then
 GetCash()
     end
 end)
-
-print("script executed sulcessfully")
